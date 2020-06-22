@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Js</title>
+    <script src="./vue.js"></script>
+  </head>
+  <body>
+    <h1>Vue.js Framework</h1>
+    <div id="comercio">
+      <p>Bermudas - R$ <span>{{valor}}</span></p>
+      <button @click="quantidade++">Adicionar</button>
+      <button @click="quantidade--">Remover</button>
+      <span>{{quantidade}}</span>
+      <p>Total: <span>{{valor * quantidade}}</span></p>
+    </div>
+
+    <h1>Javascript Puro</h1>
+    <div>
+      <p>Camisas - R$ <span class="preco"></span></p>
+      <button class="adicionar">Adicionar</button>
+      <button class="remover">Remover</button>
+      <span class="total"></span>
+      <p>Total: <span class="precoTotal"></span></p>
+    </div>
+
+    <script>
+      const vm = new Vue({
+        el: "#comercio",
+        data: {
+          valor: 69,
+          quantidade: 0,
+        },
+      });
+
+      // JAVASCRIPT PURO
+      const dados = {
+        preco: 49,
+        total: 0,
+      };
+
+      const preco = document.querySelector(".preco");
+      const total = document.querySelector(".total");
+      const precoTotal = document.querySelector(".precoTotal");
+      const adicionar = document.querySelector(".adicionar");
+      const remover = document.querySelector(".remover");
+
+      preco.innerText = dados.preco;
+      total.innerText = dados.total;
+      precoTotal.innerText = dados.preco * dados.total;
+
+      function incrementar() {
+        dados.total++;
+        atualizarUI();
+      }
+
+      function diminuir() {
+        dados.total--;
+        atualizarUI();
+      }
+
+      function atualizarUI() {
+        total.innerText = dados.total;
+        precoTotal.innerText = dados.total * dados.preco;
+      }
+
+      adicionar.addEventListener("click", incrementar);
+      remover.addEventListener("click", diminuir);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Js</title>
+    <script src="./vue.js"></script>
+  </head>
+  <body>
+    <!-- <div class="exercicios1">
+      {{empresa}}, {{produto}}
+      <p>Perímetro: {{lado * 4}}</p>
+      <p>Área: {{lado * lado}}</p>
+    </div>
+
+    <div id="app">
+      <div v-show="comprou" :style="{background: cor}">
+        <p>{{conteudo}}</p>
+        <p>{{lado *lado}}</p>
+        <p>{{comprou ? 'Sim ele comprou' : 'Nao comprou, compre aqui'}}</p>
+        <input v-model="cor" type="color" />
+        {{cor}}
+        <h1>{{titulo}}</h1>
+      </div>
+    </div> -->
+
+    <!-- <div class="exercicios2">
+      <h1>Puxar dados de ações de uma API</h1>
+      <p>companyName: {{acoes.companyName}}</p>
+      <p>latestPrice: {{acoes.latestPrice}}</p>
+      <p>latestTime: {{acoes.latestTime}}</p>
+      <button @click="puxarAcoes()">puxar ações</button>
+      {{teste}}
+    </div> -->
+    <!-- <style>
+        .verde {
+          color: green;
+        }
+        .vermelho {
+          color: red;
+        }
+      </style>
+    <div class="exercicios3">
+
+
+      <h1>Comparar Valor de Mercado - API de ações</h1>
+
+      <h2>Google</h2>
+      <p>Nome da empresa: {{acoesGoogle.companyName}}</p>
+      <p>
+        Valor de Mercado:
+        <span
+          :class="acoesGoogle.marketCap > acoesApple.marketCap ? 'verde' : 'vermelho'"
+          >{{acoesGoogle.marketCap}}</span
+        >
+      </p>
+
+      <h2>Apple</h2>
+      <p>Nome da empresa: {{acoesApple.companyName}}</p>
+      <p>
+        Valor de Mercado:
+        <p :class="acoesApple.marketCap > acoesGoogle.marketCap ? 'verde' : 'vermelho'">{{acoesApple.marketCap}}</p>
+      </p>
+
+      <button @click="puxarDados()">Puxar Dados</button>
+    </div> -->
+    <div class="exercicios4">
+      <ul>
+        <li>
+          <a @click.prevent="puxarAcao" href="#" id="aapl">Apple</a>
+        </li>
+        <li>
+          <a @click.prevent="puxarAcao" href="#" id="googl">Google</a>
+        </li>
+        <li>
+          <a @click.prevent="puxarAcao" href="#" id="amzn">Amazon</a>
+        </li>
+        <li>
+          <a @click.prevent="puxarAcao" href="#" id="ebay">Ebay</a>
+        </li>
+        <li>
+          <a @click.prevent="puxarAcao" href="#" id="pypl">Paypal</a>
+        </li>
+      </ul>
+
+      <div>
+        <p>Nome da empresa: {{acao.companyName}}</p>
+        <p>Último valor: {{acao.latestPrice}}</p>
+        <p>Valor de mercado: {{acao.marketCap}}</p>
+      </div>
+    </div>
+
+    <script>
+      const eventos = new Vue({
+        el: ".exercicios4",
+        data: {
+          teste: "testandissimo",
+          acao: {},
+        },
+        methods: {
+          puxarAcao(event) {
+            const url =
+              "https://cloud.iexapis.com/stable/stock/" +
+              event.currentTarget.id +
+              "/quote?token=pk_99f2a781b39a46e7a3c850edad8093f5";
+            fetch(url)
+              .then((r) => r.json())
+              .then((r) => {
+                this.acao = r;
+              });
+          },
+        },
+      });
+
+      // const compararAcoes = new Vue({
+      //   el: ".exercicios3",
+      //   data: {
+      //     indicador: "",
+      //     acoesGoogle: {},
+      //     acoesApple: {},
+      //   },
+      //   methods: {
+      //     fetchGoogle() {
+      //       fetch(
+      //         "https://cloud.iexapis.com/stable/stock/googl/quote?token=pk_99f2a781b39a46e7a3c850edad8093f5"
+      //       )
+      //         .then((response) => response.json())
+      //         .then((google) => {
+      //           this.acoesGoogle = google;
+      //         });
+      //     },
+      //     fetchApple() {
+      //       fetch(
+      //         "https://cloud.iexapis.com/stable/stock/aapl/quote?token=pk_99f2a781b39a46e7a3c850edad8093f5"
+      //       )
+      //         .then((response) => response.json())
+      //         .then((apple) => {
+      //           this.acoesApple = apple;
+      //         });
+      //     },
+
+      //     puxarDados() {
+      //       this.fetchGoogle();
+      //       this.fetchApple();
+      //     },
+      //   },
+      // });
+
+      //const dadosAcoes = new Vue({
+      //   el: ".exercicios2",
+      //   data: {
+      //     teste: "teste",
+      //     acoes: {},
+      //   },
+      //   methods: {
+      //     puxarAcoes() {
+      //       fetch(
+      //         "https://cloud.iexapis.com/stable/stock/aapl/quote?token=pk_99f2a781b39a46e7a3c850edad8093f5"
+      //       )
+      //         .then((response) => response.json())
+      //         .then((json) => {
+      //           this.acoes = json;
+      //         });
+      //     },
+      //   },
+      // });
+
+      // new Vue({
+      //   el: ".exercicios1",
+      //   data: {
+      //     empresa: "Apple",
+      //     produto: "iPhone",
+      //     lado: 3,
+      //   },
+      // });
+
+      // new Vue({
+      //   el: "#app",
+      //   data: {
+      //     titulo: "Curso de Javascript",
+      //     conteudo: "Esse é o conteudo",
+      //     lado: 5,
+      //     comprou: true,
+      //     cor: "#ea5757",
+      //   },
+      // });
+    </script>
+  </body>
+</html>
