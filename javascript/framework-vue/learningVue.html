@@ -191,8 +191,17 @@
           dados: {},
         },
         methods: {
+<<<<<<< HEAD
           puxarGithub() {
             fetch("https://api.github.com/users/origamid")
+=======
+          puxarAcao(event) {
+            const url =
+              "https://cloud.iexapis.com/stable/stock/" +
+              event.currentTarget.id +
+              "/quote?token=pk_xxx";
+            fetch(url)
+>>>>>>> 1cc51a9b79f0ffdfc0d30dd4bd63bd7e38bf47a0
               .then((r) => r.json())
               .then((r) => {
                 this.dados = r;
@@ -363,7 +372,7 @@
       //   methods: {
       //     fetchGoogle() {
       //       fetch(
-      //         "https://cloud.iexapis.com/stable/stock/googl/quote?token=pk_99f2a781b39a46e7a3c850edad8093f5"
+      //         "https://cloud.iexapis.com/stable/stock/googl/quote?token=pk_xxx"
       //       )
       //         .then((response) => response.json())
       //         .then((google) => {
@@ -372,7 +381,7 @@
       //     },
       //     fetchApple() {
       //       fetch(
-      //         "https://cloud.iexapis.com/stable/stock/aapl/quote?token=pk_99f2a781b39a46e7a3c850edad8093f5"
+      //         "https://cloud.iexapis.com/stable/stock/aapl/quote?token=pk_xxx"
       //       )
       //         .then((response) => response.json())
       //         .then((apple) => {
@@ -396,7 +405,7 @@
       //   methods: {
       //     puxarAcoes() {
       //       fetch(
-      //         "https://cloud.iexapis.com/stable/stock/aapl/quote?token=pk_99f2a781b39a46e7a3c850edad8093f5"
+      //         "https://cloud.iexapis.com/stable/stock/aapl/quote?token=pk_xxx"
       //       )
       //         .then((response) => response.json())
       //         .then((json) => {
