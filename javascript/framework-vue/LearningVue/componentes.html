@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/1.0.18/vue.min.js"></script>
+
+    <title>Componentes</title>
+  </head>
+  <body>
+    <div id="app">
+      {{teste}}
+      <previsao-tempo></previsao-tempo>
+      <marketcap-apple></marketcap-apple>
+    </div>
+
+    <script type="module">
+      import PrevisaoTempo from "./components/PrevisaoTempo.js";
+      import MarketcapApple from "./components/MarketcapApple.js";
+
+      // Registrar globalmente
+      Vue.component("PrevisaoTempo", PrevisaoTempo);
+
+      const vm = new Vue({
+        el: "#app",
+        data: {
+          teste: "testando",
+        },
+        // registrar localmente
+        components: {
+          MarketcapApple,
+        },
+      });
+    </script>
+  </body>
+</html>
