@@ -4,7 +4,7 @@ export default {
   name: "Acoes",
   data() {
     return {
-      dados: {},
+      quote: {},
       acao: "",
     };
   },
@@ -17,15 +17,14 @@ export default {
       <ul>
         <li>Apple > aapl</li>
         <li>Amazon > amzn</li>
-        <li>Apple > aapl</li>
+        <li>Microsoft > msft</li>
         <li>Apple > aapl</li>
 
       </ul>
     </p>
       <input type="text" v-model="acao" />
       <button @click="fetchData">Buscar Dados</button>
-      {{dados}}
-      <dados-acao :acao="exemplo"></dados-acao>
+      <dados-acao :dados:"quote"></dados-acao>
     </div>
   `,
   methods: {
@@ -35,9 +34,12 @@ export default {
       )
         .then((r) => r.json())
         .then((r) => {
-          this.dados = r;
+          this.quote = r;
         });
-      console.log(this.dados);
+      console.log(
+        `https://cloud.iexapis.com/stable/stock/${this.acao}/quote?token=pk_99f2a781b39a46e7a3c850edad8093f5`
+      );
+      console.log(this.quote);
     },
   },
 };
