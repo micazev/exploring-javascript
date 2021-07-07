@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <script type="text/javascript" src="d3.min.js"></script>
+  <style type="text/css">
+  body {
+    background: #FAEBE0;
+    max-width: 100vw;
+    max-height: 100vh;
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  #chart {
+    margin: 20vh auto;
+    width: 600px;
+    height: 500px;
+    background-color: #fff;
+  }
+  svg {
+    background-color: #C9E4C5;
+  }
+  .dot{
+    stroke: #402218;
+    stroke-width: 1px;
+  }
+  .axis line, .axis path{
+    stroke: #402218;
+  }
+  .axis text{
+    fill: #402218;
+  }
+  .axisLabel{
+    fill: #402218;
+    font: sans-serif;
+    font-size: 10px;
+  }
+  #tooltip{
+    position: absolute; 
+    background: #fff;
+    padding: 20px;
+    border: 1px solid #000;
+    opacity: 0;
+  }
+  </style>
+</head>
+<body>
+  <div id="chart"></div>
+  <div id="tooltip"></div>
+</body>
+<script type="text/javascript">
+  var margin= 30, width = 600, height = 500, rValues = [2,10];
+  var circles, xScale, yScale;
+
+  var svg = d3.select('#chart')
+    .append('svg')
+    .attr('width', width + 'px')
+    .attr('height', height + 'px');
+
+    d3.csv('boston-housing.csv').then(function(data){
+      // console.log(data);
+
+// reordenar os dados em ordem crescente
+      data = data.sort(function(a,b){
+        return a.charles - b.charles;
+      })
+
+// Selecionando mínimos e máximos
+      // a função extent pega mínimo e máximo
+      xMinMax = d3.extent(data, function(d){
+        return parseFloat(d.poor); //transformar em decimal
+      });
+      // console.log(xMinMax);
+
+      yMinMax = d3.extent(data, function(d){
+        return parseFloat(d.rooms); 
+      });
+
+      rMinMax = d3.extent(data, function(d){
+        return parseFloat(d.value); 
+      });
+
+// Definindo escalas
+      xScale = d3.scaleLinear()
+        .domain([xMinMax[1],xMinMax[0]]) //input values - data min e max
+        .range([margin + rValues[1],width-margin-rValues[1]]); //output values - placement in x coordinates
+      
+      yScale = d3.scaleLinear()
+        .domain([yMinMax[1],yMinMax[0]])
+        .range([margin+ rValues[1],height-margin-rValues[1]]); 
+      
+      rScale = d3.scaleLinear()
+        .domain([rMinMax[0],rMinMax[1]]) 
+        .range([rValues[0],rValues[1]]);
+      
+      cScale = d3.scaleOrdinal()
+        .domain([0, 1])
+        .range(['#FF8303','#5E454B']);
+
+// Elementos gráfico
+      // Circulos
+      circles = svg.selectAll('.dot')
+        .data(data)
+        // para cada entrada, adicione um círculo
+        .enter() 
+        .append('circle')
+        .attr('class', 'dot')
+        .attr('cx', function(d){
+          // console.log(d);
+          return xScale(d.poor);
+        })
+        .attr('cy', function(d){
+          // console.log(d);
+          return yScale(d.rooms);
+        })
+        .attr('r', function(d){
+          // largura dos círculos
+          return rScale(d.value);
+        })
+        .attr('fill', function(d){
+          return cScale(d.charles); // na tabela, se o lugar esta perto do rio charles é 1 e se não é 0
+        })
+        .style('opacity', function(d){
+        return d.charles == 1 ? 1 : 0.3;
+        })
+        .on('mouseover', function(d){
+          html = 'X | poor: '+  d.poor;
+          html += 'Y | rooms: '+  d.rooms;
+          html += 'R | value: '+  d.value;
+          html += 'C | charles: '+  d.charles;
+          d3.select('#tooltip')
+            .html(html)
+            .style('left', d3.event.pageX - 100)
+            .style('top', d3.event.pageY - 100)
+            .style('opacity', 0.85);
+        })
+        .on('mouseout', function(){
+          d3.select('#tooltip')
+            .style('left', -1000)
+            .style('opacity', 0)
+        }); 
+
+        // Escalas 
+      xAxis = d3.axisBottom(xScale).tickValues(0); 
+      //ticks values são os números na escala, colocamos o mínimo e o máximo apenas
+      yAxis = d3.axisLeft(yScale).tickValues([yMinMax[0], yMinMax[1]]); 
+
+
+      xAxisG = svg.append('g')
+      .attr('id', 'xAxis')
+      .attr('class', 'axis');
+
+      yAxisG = svg.append('g')
+      .attr('id', 'yAxis')
+      .attr('class', 'axis');
+
+      xAxisG.call(xAxis)
+      .attr('transform', 'translate(0,' + (height-margin) +')');
+
+      yAxisG.call(yAxis)
+      .attr('transform', 'translate(' + margin +',0)');
+
+        svg.append('text')
+          .attr('x', xScale(xMinMax[0]))
+          .attr('y', yScale(yMinMax[0]) + margin )
+          .attr('text-anchor', 'middle')
+          .attr('class', 'axisLabel')
+          .text('more wealthy');
+
+
+      update();
+    });
+
+    function update() {
+      circles.transition()
+        .delay(function(d, i){
+          // cada circulo vai ter um delay correspondente ao seu numero index
+          return i*10;
+        })
+        .attr('r', function(d) {
+          return rScale(d.value);
+        });
+    };
+</script>
+</html>
